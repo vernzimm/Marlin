@@ -699,7 +699,7 @@
  * Multiple extruders can be assigned to the same pin in which case
  * the fan will turn on when any selected extruder is above the threshold.
  */
-#define E0_AUTO_FAN_PIN  7
+//#define E0_AUTO_FAN_PIN -1
 #define E1_AUTO_FAN_PIN -1
 #define E2_AUTO_FAN_PIN -1
 #define E3_AUTO_FAN_PIN -1
@@ -710,7 +710,7 @@
 #define CHAMBER_AUTO_FAN_PIN -1
 #define COOLER_AUTO_FAN_PIN -1
 
-#define EXTRUDER_AUTO_FAN_TEMPERATURE 150
+#define EXTRUDER_AUTO_FAN_TEMPERATURE 50 //MPCedit
 #define EXTRUDER_AUTO_FAN_SPEED 255   // 255 == full speed
 #define CHAMBER_AUTO_FAN_TEMPERATURE 30
 #define CHAMBER_AUTO_FAN_SPEED 255
@@ -766,7 +766,7 @@
  * @section caselight
  * M355 Case Light on-off / brightness
  */
-//#define CASE_LIGHT_ENABLE
+//#define CASE_LIGHT_ENABLE MPCedit
 #if ENABLED(CASE_LIGHT_ENABLE)
   //#define CASE_LIGHT_PIN 4                  // Override the default pin if needed
   #define INVERT_CASE_LIGHT false             // Set true if Case Light is ON when pin is LOW
@@ -1238,25 +1238,6 @@
   #define FTM_FS                     1000   // (Hz) Frequency for trajectory generation.
   #define FTM_MIN_SHAPE_FREQ          100   // (Hz) Minimum shaping frequency, lower consumes more RAM
 
-  /**
-   * TMC2208 / TMC2208_STANDALONE drivers require a brief pause after a DIR change
-   * to prevent a standstill shutdown when using StealthChop (the standalone default).
-   * These options cause FT Motion to delay for > 750µs after a DIR change on a given axis.
-   * Disable only if you are certain that this can never happen with your TMC2208s.
-   */
-  #if AXIS_DRIVER_TYPE_X(TMC2208) || AXIS_DRIVER_TYPE_X(TMC2208_STANDALONE)
-    #define FTM_DIR_CHANGE_HOLD_X
-  #endif
-  #if AXIS_DRIVER_TYPE_Y(TMC2208) || AXIS_DRIVER_TYPE_Y(TMC2208_STANDALONE)
-    #define FTM_DIR_CHANGE_HOLD_Y
-  #endif
-  #if AXIS_DRIVER_TYPE_Z(TMC2208) || AXIS_DRIVER_TYPE_Z(TMC2208_STANDALONE)
-    #define FTM_DIR_CHANGE_HOLD_Z
-  #endif
-  #if HAS_E_DRIVER(TMC2208) || HAS_E_DRIVER(TMC2208_STANDALONE)
-    #define FTM_DIR_CHANGE_HOLD_E
-  #endif
-
 #endif // FT_MOTION
 
 /**
@@ -1274,8 +1255,8 @@
  *
  * Tune with M593 D<factor> F<frequency>
  */
-#define INPUT_SHAPING_X
-#define INPUT_SHAPING_Y
+//#define INPUT_SHAPING_X MPCedit
+//#define INPUT_SHAPING_Y MPCedit
 //#define INPUT_SHAPING_Z
 #if ANY(INPUT_SHAPING_X, INPUT_SHAPING_Y, INPUT_SHAPING_Z)
   #if ENABLED(INPUT_SHAPING_X)
@@ -1463,7 +1444,7 @@
  * Multi-stepping sends steps in bursts to reduce MCU usage for high step-rates.
  * This allows higher feedrates than the MCU could otherwise support.
  */
-#define MULTISTEPPING_LIMIT   32  // :[1, 2, 4, 8, 16, 32, 64, 128]
+// #define MULTISTEPPING_LIMIT   16  // :[1, 2, 4, 8, 16, 32, 64, 128] MPCedit
 
 /**
  * Adaptive Step Smoothing increases the resolution of multi-axis moves, particularly at step frequencies
@@ -1471,7 +1452,7 @@
  * vibration and surface artifacts. The algorithm adapts to provide the best possible step smoothing at the
  * lowest stepping frequencies.
  */
-#define ADAPTIVE_STEP_SMOOTHING
+//#define ADAPTIVE_STEP_SMOOTHING MPCedit
 
 /**
  * Custom Microstepping
@@ -1545,7 +1526,7 @@
 
 // @section lcd
 
-// Turn off the display blinking that warns about possible accuracy reduction
+// Turn off the display blinking that warns about possible accuracy reduction MPCedit
 #define DISABLE_REDUCED_ACCURACY_WARNING
 
 #if HAS_MANUAL_MOVE_MENU
@@ -1559,11 +1540,10 @@
 #endif
 
 // Change values more rapidly when the encoder is rotated faster
-#define ENCODER_RATE_MULTIPLIER
+//#define ENCODER_RATE_MULTIPLIER MPCedit
 #if ENABLED(ENCODER_RATE_MULTIPLIER)
-  #define ENCODER_5X_STEPS_PER_SEC 35
-  //#define ENCODER_10X_STEPS_PER_SEC   25  // (steps/s) Encoder rate for 10x speed (was 75, try smaller)
-  //#define ENCODER_100X_STEPS_PER_SEC  40  // (steps/s) Encoder rate for 100x speed (was 160, try smaller)
+  #define ENCODER_10X_STEPS_PER_SEC   25  // (steps/s) Encoder rate for 10x speed (was 75, try smaller)
+  #define ENCODER_100X_STEPS_PER_SEC  40  // (steps/s) Encoder rate for 100x speed (was 160, try smaller)
 #endif
 
 // Play a beep when the feedrate is changed from the Status Screen
@@ -1583,14 +1563,14 @@
  *  - The difference is used to set the probe Z offset.
  */
 #if HAS_BED_PROBE && ANY(HAS_MARLINUI_MENU, HAS_TFT_LVGL_UI)
-  #define PROBE_OFFSET_WIZARD
+  // #define PROBE_OFFSET_WIZARD MPCedit
   #if ENABLED(PROBE_OFFSET_WIZARD)
     /**
      * Enable to init the Probe Z-Offset when starting the Wizard.
      * Use a height slightly above the estimated nozzle-to-probe Z offset.
      * For example, with an offset of -5, consider a starting height of -4.
      */
-    #define PROBE_OFFSET_WIZARD_START_Z 0.0
+    #define PROBE_OFFSET_WIZARD_START_Z 0.5
 
     // Set a convenient position to do the calibration (probing point and nozzle/bed-distance)
     #define PROBE_OFFSET_WIZARD_XY_POS { X_CENTER, Y_CENTER }
@@ -1605,14 +1585,14 @@
     //#define PROBE_DEPLOY_STOW_MENU
 
     // Add calibration in the Probe Offsets menu to compensate for X-axis twist.
-    //#define X_AXIS_TWIST_COMPENSATION
+    //#define X_AXIS_TWIST_COMPENSATION MPCedit
     #if ENABLED(X_AXIS_TWIST_COMPENSATION)
       /**
        * Enable to init the Probe Z-Offset when starting the Wizard.
        * Use a height slightly above the estimated nozzle-to-probe Z offset.
        * For example, with an offset of -5, consider a starting height of -4.
        */
-      #define XATC_START_Z 0.0
+      #define XATC_START_Z 0.5
       #define XATC_MAX_POINTS 3             // Number of points to probe in the wizard
       #define XATC_Y_POSITION Y_CENTER      // (mm) Y position to probe
       #define XATC_Z_OFFSETS { 0, 0, 0 }    // Z offsets for X axis sample points
@@ -1621,9 +1601,9 @@
   #endif
 
   // Include a page of printer information in the LCD Main Menu
-  #define LCD_INFO_MENU
+  //#define LCD_INFO_MENU MPCedit
   #if ENABLED(LCD_INFO_MENU)
-    //#define LCD_PRINTER_INFO_IS_BOOTSCREEN // Show bootscreen(s) instead of Printer Info pages
+    #define LCD_PRINTER_INFO_IS_BOOTSCREEN // Show bootscreen(s) instead of Printer Info pages
     //#define BUILD_INFO_MENU_ITEM           // Add a menu item to display the build date and time
   #endif
 
@@ -1647,7 +1627,7 @@
   #define MANUAL_MOVE_DISTANCE_DEG             90, 45, 22.5, 5, 1  // (°)
 
   // BACK menu items keep the highlight at the top
-  #define TURBO_BACK_MENU_ITEM
+  //#define TURBO_BACK_MENU_ITEM MPCedit
 
   // BACK menu items show "Back" instead of the previous menu name
   #define GENERIC_BACK_MENU_ITEM
@@ -1701,10 +1681,10 @@
   #endif
 
   // The timeout to return to the status screen from sub-menus
-  #define LCD_TIMEOUT_TO_STATUS 60000   // (ms)
+  // #define LCD_TIMEOUT_TO_STATUS 60000   // (ms) MPCedit
 
   // Scroll a longer status message into view
-  #define STATUS_MESSAGE_SCROLLING
+  //#define STATUS_MESSAGE_SCROLLING MPCedit
 
   // Apply a timeout to low-priority status messages
   //#define STATUS_MESSAGE_TIMEOUT_SEC 30 // (seconds)
@@ -1713,7 +1693,7 @@
   //#define LCD_DECIMAL_SMALL_XY
 
   // Show the E position (filament used) during printing
-  #define LCD_SHOW_E_TOTAL
+  //#define LCD_SHOW_E_TOTAL MPCedit
 
   // Display a negative temperature instead of "err"
   //#define SHOW_TEMPERATURE_BELOW_ZERO
@@ -1769,26 +1749,26 @@
 #endif
 
 // LCD Print Progress options. Multiple times may be displayed in turn.
-#if HAS_DISPLAY && ANY(HAS_MEDIA, SET_PROGRESS_MANUALLY)
-  #define SHOW_PROGRESS_PERCENT           // Show print progress percentage (doesn't affect progress bar)
-  #define SHOW_ELAPSED_TIME               // Display elapsed printing time (prefix 'E')
-  //#define SHOW_REMAINING_TIME           // Display estimated time to completion (prefix 'R')
-  #if ENABLED(SET_INTERACTION_TIME)
-    #define SHOW_INTERACTION_TIME         // Display time until next user interaction ('C' = filament change)
-  #endif
-  //#define PRINT_PROGRESS_SHOW_DECIMALS  // Show/report progress with decimal digits, not all UIs support this
+// #if HAS_DISPLAY && ANY(HAS_MEDIA, SET_PROGRESS_MANUALLY) MPCedit whole section
+//   #define SHOW_PROGRESS_PERCENT           // Show print progress percentage (doesn't affect progress bar)
+//   #define SHOW_ELAPSED_TIME               // Display elapsed printing time (prefix 'E')
+//   //#define SHOW_REMAINING_TIME           // Display estimated time to completion (prefix 'R')
+//   #if ENABLED(SET_INTERACTION_TIME)
+//     #define SHOW_INTERACTION_TIME         // Display time until next user interaction ('C' = filament change)
+//   #endif
+//   //#define PRINT_PROGRESS_SHOW_DECIMALS  // Show/report progress with decimal digits, not all UIs support this
 
-  #if ANY(HAS_MARLINUI_HD44780, IS_TFTGLCD_PANEL)
-    //#define LCD_PROGRESS_BAR            // Show a progress bar on HD44780 LCDs for SD printing
-    #if ENABLED(LCD_PROGRESS_BAR)
-      #define PROGRESS_BAR_BAR_TIME 2000  // (ms) Amount of time to show the bar
-      #define PROGRESS_BAR_MSG_TIME 3000  // (ms) Amount of time to show the status message
-      #define PROGRESS_MSG_EXPIRE      0  // (ms) Amount of time to retain the status message (0=forever)
-      //#define PROGRESS_MSG_ONCE         // Show the message for MSG_TIME then clear it
-      //#define LCD_PROGRESS_BAR_TEST     // Add a menu item to test the progress bar
-    #endif
-  #endif
-#endif
+//   #if ANY(HAS_MARLINUI_HD44780, IS_TFTGLCD_PANEL)
+//     //#define LCD_PROGRESS_BAR            // Show a progress bar on HD44780 LCDs for SD printing
+//     #if ENABLED(LCD_PROGRESS_BAR)
+//       #define PROGRESS_BAR_BAR_TIME 2000  // (ms) Amount of time to show the bar
+//       #define PROGRESS_BAR_MSG_TIME 3000  // (ms) Amount of time to show the status message
+//       #define PROGRESS_MSG_EXPIRE      0  // (ms) Amount of time to retain the status message (0=forever)
+//       //#define PROGRESS_MSG_ONCE         // Show the message for MSG_TIME then clear it
+//       //#define LCD_PROGRESS_BAR_TEST     // Add a menu item to test the progress bar
+//     #endif
+//   #endif
+// #endif
 
 #if HAS_MEDIA
   /**
@@ -1802,12 +1782,6 @@
    */
   //#define SD_SPI_SPEED SPI_HALF_SPEED
 
-  /**
-   * Reinit the LCD after SD Card insert/remove or when entering the menu.
-   * Required for some LCDs that use shared SPI with an external SD Card reader.
-   */
-  #define REINIT_NOISY_LCD
-
   // The standard SD detect circuit reads LOW when media is inserted and HIGH when empty.
   // Enable this option and set to HIGH if your SD cards are incorrectly detected.
   //#define SD_DETECT_STATE HIGH
@@ -1817,7 +1791,7 @@
 
   //#define GCODE_REPEAT_MARKERS            // Enable G-code M808 to set repeat markers and do looping
 
-  #define SD_PROCEDURE_DEPTH 1              // Increase if you need more nested M32 calls
+  //#define SD_PROCEDURE_DEPTH 1              // Increase if you need more nested M32 calls MPCedit
 
   //#define SD_FINISHED_STEPPERRELEASE true   // Disable steppers when SD Print is finished
   //#define SD_FINISHED_RELEASECOMMAND "M84 X Y E"  // Use "M84XYE" to keep Z enabled so your bed stays in place
@@ -1941,7 +1915,7 @@
   //#define LONG_FILENAME_WRITE_SUPPORT   // Create / delete files with long filenames via M28, M30, and Binary Transfer Protocol
   //#define M20_TIMESTAMP_SUPPORT         // Include timestamps by adding the 'T' flag to M20 commands
 
-  #define SCROLL_LONG_FILENAMES         // Scroll long filenames in the SD card menu
+  //#define SCROLL_LONG_FILENAMES         // Scroll long filenames in the SD card menu MPCedit
 
   //#define SD_ABORT_NO_COOLDOWN          // Leave the heaters on after Stop Print (not recommended!)
 
@@ -2379,7 +2353,7 @@
  * NOTE: This method is less reliable as it can only catch hangups while
  * interrupts are enabled.
  */
-#define USE_WATCHDOG
+//#define USE_WATCHDOG MPCedit
 #if ENABLED(USE_WATCHDOG)
   //#define WATCHDOG_RESET_MANUAL
 #endif
@@ -2393,7 +2367,7 @@
  *
  * Warning: Does not respect endstops!
  */
-#define BABYSTEPPING
+//#define BABYSTEPPING MPCedit
 #if ENABLED(BABYSTEPPING)
   //#define EP_BABYSTEPPING                 // M293/M294 babystepping with EMERGENCY_PARSER support
   //#define BABYSTEP_WITHOUT_HOMING
@@ -2820,7 +2794,7 @@
  * Currently handles M108, M112, M410, M876
  * NOTE: Not yet implemented for all platforms.
  */
-//#define EMERGENCY_PARSER
+//#define EMERGENCY_PARSER MPCedit
 
 /**
  * Realtime Reporting (requires EMERGENCY_PARSER)
@@ -3053,7 +3027,7 @@
  *
  * Enable PARK_HEAD_ON_PAUSE to add the G-code M125 Pause and Park.
  */
-#define ADVANCED_PAUSE_FEATURE
+//#define ADVANCED_PAUSE_FEATURE MPCedit
 #if ENABLED(ADVANCED_PAUSE_FEATURE)
   #define PAUSE_PARK_RETRACT_FEEDRATE         60  // (mm/s) Initial retract feedrate.
   #define PAUSE_PARK_RETRACT_LENGTH            2  // (mm) Initial retract.
@@ -4044,7 +4018,7 @@
 /**
  * Disable all Volumetric extrusion options
  */
-//#define NO_VOLUMETRICS
+#define NO_VOLUMETRICS //MPCedit
 
 #if DISABLED(NO_VOLUMETRICS)
   /**
@@ -4107,7 +4081,7 @@
  * M115 - Report capabilities. Disable to save ~1150 bytes of flash.
  *        Some hosts (and serial TFT displays) rely on this feature.
  */
-#define CAPABILITIES_REPORT
+//#define CAPABILITIES_REPORT MPCedit
 #if ENABLED(CAPABILITIES_REPORT)
   // Include capabilities in M115 output
   #define EXTENDED_CAPABILITIES_REPORT
@@ -4149,7 +4123,7 @@
  * Enable M111 debug flags 1=ECHO, 2=INFO, 4=ERRORS (unimplemented).
  * Disable to save some flash. Some hosts (Repetier Host) may rely on this feature.
  */
-#define DEBUG_FLAGS_GCODE
+// #define DEBUG_FLAGS_GCODE MPCedit
 
 /**
  * Enable this option for a leaner build of Marlin that removes
@@ -4815,7 +4789,7 @@
 //
 // M43 - display pin status, toggle pins, watch pins, watch endstops & toggle LED, test servo probe
 //
-#define PINS_DEBUGGING
+//#define PINS_DEBUGGING MPCedit
 
 //
 // M265 - I2C Scanner
@@ -4852,9 +4826,5 @@
 // Report uncleaned reset reason from register r2 instead of MCUSR. Supported by Optiboot on AVR.
 //#define OPTIBOOT_RESET_REASON
 
-/** Shrink the build for smaller boards by changing the following features:
-*  #undef EEPROM_CHITCHAT
-*  #undef CAPABILITIES_REPORT
-*  #define DISABLE_M503
-*/
-//#define MARLIN_SMALL_BUILD
+// Shrink the build for smaller boards by sacrificing some serial feedback
+#define MARLIN_SMALL_BUILD

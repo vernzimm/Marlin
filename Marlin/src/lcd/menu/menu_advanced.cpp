@@ -683,7 +683,7 @@ void menu_backlash();
 #endif // EDITABLE_STEPS_PER_UNIT
 
 void menu_advanced_settings() {
-  #if ANY(POLARGRAPH, SHAPING_MENU, HAS_BED_PROBE, EDITABLE_STEPS_PER_UNIT)
+  #if ANY(POLARGRAPH, EDITABLE_STEPS_PER_UNIT) //remove SHAPING_MENU and HAS_BED_PROBE?
     const bool is_busy = marlin.printer_busy();
   #endif
 
